@@ -20,6 +20,7 @@ public class Imgcodecs {
             CV_LOAD_IMAGE_COLOR = 1,
             CV_LOAD_IMAGE_ANYDEPTH = 2,
             CV_LOAD_IMAGE_ANYCOLOR = 4,
+            CV_LOAD_IMAGE_IGNORE_ORIENTATION = 128,
             CV_IMWRITE_JPEG_QUALITY = 1,
             CV_IMWRITE_JPEG_PROGRESSIVE = 2,
             CV_IMWRITE_JPEG_OPTIMIZE = 3,
@@ -36,6 +37,13 @@ public class Imgcodecs {
             CV_IMWRITE_PNG_STRATEGY_FIXED = 4,
             CV_IMWRITE_PXM_BINARY = 32,
             CV_IMWRITE_WEBP_QUALITY = 64,
+            CV_IMWRITE_PAM_TUPLETYPE = 128,
+            CV_IMWRITE_PAM_FORMAT_NULL = 0,
+            CV_IMWRITE_PAM_FORMAT_BLACKANDWHITE = 1,
+            CV_IMWRITE_PAM_FORMAT_GRAYSCALE = 2,
+            CV_IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA = 3,
+            CV_IMWRITE_PAM_FORMAT_RGB = 4,
+            CV_IMWRITE_PAM_FORMAT_RGB_ALPHA = 5,
             CV_CVTIMG_FLIP = 1,
             CV_CVTIMG_SWAP_RB = 2,
             IMREAD_UNCHANGED = -1,
@@ -44,6 +52,13 @@ public class Imgcodecs {
             IMREAD_ANYDEPTH = 2,
             IMREAD_ANYCOLOR = 4,
             IMREAD_LOAD_GDAL = 8,
+            IMREAD_REDUCED_GRAYSCALE_2 = 16,
+            IMREAD_REDUCED_COLOR_2 = 17,
+            IMREAD_REDUCED_GRAYSCALE_4 = 32,
+            IMREAD_REDUCED_COLOR_4 = 33,
+            IMREAD_REDUCED_GRAYSCALE_8 = 64,
+            IMREAD_REDUCED_COLOR_8 = 65,
+            IMREAD_IGNORE_ORIENTATION = 128,
             IMWRITE_JPEG_QUALITY = 1,
             IMWRITE_JPEG_PROGRESSIVE = 2,
             IMWRITE_JPEG_OPTIMIZE = 3,
@@ -55,11 +70,32 @@ public class Imgcodecs {
             IMWRITE_PNG_BILEVEL = 18,
             IMWRITE_PXM_BINARY = 32,
             IMWRITE_WEBP_QUALITY = 64,
+            IMWRITE_PAM_TUPLETYPE = 128,
             IMWRITE_PNG_STRATEGY_DEFAULT = 0,
             IMWRITE_PNG_STRATEGY_FILTERED = 1,
             IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY = 2,
             IMWRITE_PNG_STRATEGY_RLE = 3,
-            IMWRITE_PNG_STRATEGY_FIXED = 4;
+            IMWRITE_PNG_STRATEGY_FIXED = 4,
+            IMWRITE_PAM_FORMAT_NULL = 0,
+            IMWRITE_PAM_FORMAT_BLACKANDWHITE = 1,
+            IMWRITE_PAM_FORMAT_GRAYSCALE = 2,
+            IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA = 3,
+            IMWRITE_PAM_FORMAT_RGB = 4,
+            IMWRITE_PAM_FORMAT_RGB_ALPHA = 5;
+
+
+    //
+    // C++:  Mat imdecode(Mat buf, int flags)
+    //
+
+    //javadoc: imdecode(buf, flags)
+    public static Mat imdecode(Mat buf, int flags)
+    {
+        
+        Mat retVal = new Mat(imdecode_0(buf.nativeObj, flags));
+        
+        return retVal;
+    }
 
 
     //
@@ -80,6 +116,30 @@ public class Imgcodecs {
     {
         
         Mat retVal = new Mat(imread_1(filename));
+        
+        return retVal;
+    }
+
+
+    //
+    // C++:  bool imencode(String ext, Mat img, vector_uchar& buf, vector_int params = std::vector<int>())
+    //
+
+    //javadoc: imencode(ext, img, buf, params)
+    public static boolean imencode(String ext, Mat img, MatOfByte buf, MatOfInt params)
+    {
+        Mat buf_mat = buf;
+        Mat params_mat = params;
+        boolean retVal = imencode_0(ext, img.nativeObj, buf_mat.nativeObj, params_mat.nativeObj);
+        
+        return retVal;
+    }
+
+    //javadoc: imencode(ext, img, buf)
+    public static boolean imencode(String ext, Mat img, MatOfByte buf)
+    {
+        Mat buf_mat = buf;
+        boolean retVal = imencode_1(ext, img.nativeObj, buf_mat.nativeObj);
         
         return retVal;
     }
@@ -131,49 +191,18 @@ public class Imgcodecs {
     }
 
 
-    //
+
+
     // C++:  Mat imdecode(Mat buf, int flags)
-    //
-
-    //javadoc: imdecode(buf, flags)
-    public static Mat imdecode(Mat buf, int flags)
-    {
-        
-        Mat retVal = new Mat(imdecode_0(buf.nativeObj, flags));
-        
-        return retVal;
-    }
-
-
-    //
-    // C++:  bool imencode(String ext, Mat img, vector_uchar& buf, vector_int params = std::vector<int>())
-    //
-
-    //javadoc: imencode(ext, img, buf, params)
-    public static boolean imencode(String ext, Mat img, MatOfByte buf, MatOfInt params)
-    {
-        Mat buf_mat = buf;
-        Mat params_mat = params;
-        boolean retVal = imencode_0(ext, img.nativeObj, buf_mat.nativeObj, params_mat.nativeObj);
-        
-        return retVal;
-    }
-
-    //javadoc: imencode(ext, img, buf)
-    public static boolean imencode(String ext, Mat img, MatOfByte buf)
-    {
-        Mat buf_mat = buf;
-        boolean retVal = imencode_1(ext, img.nativeObj, buf_mat.nativeObj);
-        
-        return retVal;
-    }
-
-
-
+    private static native long imdecode_0(long buf_nativeObj, int flags);
 
     // C++:  Mat imread(String filename, int flags = IMREAD_COLOR)
     private static native long imread_0(String filename, int flags);
     private static native long imread_1(String filename);
+
+    // C++:  bool imencode(String ext, Mat img, vector_uchar& buf, vector_int params = std::vector<int>())
+    private static native boolean imencode_0(String ext, long img_nativeObj, long buf_mat_nativeObj, long params_mat_nativeObj);
+    private static native boolean imencode_1(String ext, long img_nativeObj, long buf_mat_nativeObj);
 
     // C++:  bool imreadmulti(String filename, vector_Mat mats, int flags = IMREAD_ANYCOLOR)
     private static native boolean imreadmulti_0(String filename, long mats_mat_nativeObj, int flags);
@@ -182,12 +211,5 @@ public class Imgcodecs {
     // C++:  bool imwrite(String filename, Mat img, vector_int params = std::vector<int>())
     private static native boolean imwrite_0(String filename, long img_nativeObj, long params_mat_nativeObj);
     private static native boolean imwrite_1(String filename, long img_nativeObj);
-
-    // C++:  Mat imdecode(Mat buf, int flags)
-    private static native long imdecode_0(long buf_nativeObj, int flags);
-
-    // C++:  bool imencode(String ext, Mat img, vector_uchar& buf, vector_int params = std::vector<int>())
-    private static native boolean imencode_0(String ext, long img_nativeObj, long buf_mat_nativeObj, long params_mat_nativeObj);
-    private static native boolean imencode_1(String ext, long img_nativeObj, long buf_mat_nativeObj);
 
 }

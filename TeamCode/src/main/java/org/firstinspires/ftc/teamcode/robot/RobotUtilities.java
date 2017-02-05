@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.lasarobotics.vision.ftc.resq.Beacon;
-import org.lasarobotics.vision.opmode.LinearVisionOpMode;
 
 public class RobotUtilities {
 
@@ -55,34 +53,16 @@ public class RobotUtilities {
         }
     }
 
-    public void pushBeaconButton(Beacon.BeaconAnalysis analysis, Robot.TeamColor teamColor) {
+    public void pushBeaconButton(Robot.TeamColor teamColor) {
         boolean leftBlue, leftRed, rightBlue, rightRed;
 
-        leftBlue = analysis.isLeftBlue();
-        leftRed = analysis.isLeftRed();
-        rightBlue = analysis.isRightBlue();
-        rightRed = analysis.isRightRed();
-
-        if (teamColor == Robot.TeamColor.BLUE) {
-            if (leftBlue) {
-                toggleBeaconPresser(robot.leftBeacon);
-                toggleBeaconPresser(robot.leftBeacon);
-            } else if (rightBlue) {
-                toggleBeaconPresser(robot.rightBeacon);
-                toggleBeaconPresser(robot.rightBeacon);
-            }
-        } else if (teamColor == Robot.TeamColor.RED) {
-            if (leftRed) {
-                toggleBeaconPresser(robot.leftBeacon);
-                toggleBeaconPresser(robot.leftBeacon);
-            } else if (rightRed) {
-                toggleBeaconPresser(robot.rightBeacon);
-                toggleBeaconPresser(robot.rightBeacon);
-            }
-        }
+//        leftBlue = analysis.isLeftBlue();
+//        leftRed = analysis.isLeftRed();
+//        rightBlue = analysis.isRightBlue();
+//        rightRed = analysis.isRightRed();
     }
 
-    public void shootBall(LinearVisionOpMode opMode) {
+    public void shootBall(LinearOpMode opMode) {
         shootBalls(true);
         waitFor(opMode, RobotConstants.shotWaitPeriod);
 
@@ -93,7 +73,7 @@ public class RobotUtilities {
         shootBalls(false);
     }
 
-    public void shootDoubleBall(LinearVisionOpMode opMode) {
+    public void shootDoubleBall(LinearOpMode opMode) {
         shootBalls(true);
         waitFor(opMode, RobotConstants.shotWaitPeriod);
 
@@ -154,7 +134,7 @@ public class RobotUtilities {
         robotMovement.move(RobotMovement.Direction.NONE);
     }
 
-    private void waitFor(LinearVisionOpMode opMode, int sec) {
+    private void waitFor(LinearOpMode opMode, int sec) {
         long millis = sec * 1000;
         long stopTime = System.currentTimeMillis() + millis;
         while(opMode.opModeIsActive() && System.currentTimeMillis() < stopTime) {
