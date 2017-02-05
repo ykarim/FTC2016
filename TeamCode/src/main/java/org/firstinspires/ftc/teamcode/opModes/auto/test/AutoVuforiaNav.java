@@ -3,16 +3,20 @@ package org.firstinspires.ftc.teamcode.opModes.auto.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.HINT;
+import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.RobotConstants;
 import org.firstinspires.ftc.teamcode.robot.RobotMovement;
 import org.firstinspires.ftc.teamcode.robot.RobotUtilities;
+import org.firstinspires.ftc.teamcode.utils.BeaconUtils;
 
 @Autonomous (name = "Vuforia Test", group = "autotest")
 public class AutoVuforiaNav extends LinearOpMode{
@@ -27,9 +31,13 @@ public class AutoVuforiaNav extends LinearOpMode{
     private RobotMovement robotMovement = new RobotMovement(tom);
     private RobotUtilities robotUtilities = new RobotUtilities(tom);
 
+    private final String TAG = RobotConstants.autoOpTag + "Vuforia Test : ";
+
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
         VuforiaLocalizer vuforiaLocalizer = ClassFactory.createVuforiaLocalizer(initVuforia());
+        vuforiaLocalizer.setFrameQueueCapacity(1);
+        Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 4);
 
         VuforiaTrackables beacons = vuforiaLocalizer.loadTrackablesFromAsset("FTC_2016-17");
@@ -56,6 +64,9 @@ public class AutoVuforiaNav extends LinearOpMode{
         robotMovement.move(RobotMovement.Direction.NONE);
 
         //Analyze beacon
+        int beaconConfig = BeaconUtils.waitForBeaconDetection(this,
+                BeaconUtils.getImageFromFrame(vuforiaLocalizer.getFrameQueue().take(), PIXEL_FORMAT.RGB565),
+                gears, vuforiaLocalizer.getCameraCalibration(), 5000);
 
         VectorF angles = anglesFromTarget(gears);
         VectorF trans = navOffWall(gears.getPose().getTranslation(),
@@ -94,7 +105,22 @@ public class AutoVuforiaNav extends LinearOpMode{
             }
         }
         robotMovement.move(RobotMovement.Direction.NONE);
+        addToTelemetry("Aligned with beacon");
 
+        if (beaconConfig == BeaconUtils.BEACON_BLUE_RED) {
+            if (getTeamColor() == Robot.TeamColor.BLUE) {
+                robotUtilities.toggleBeaconPresser(tom.leftBeacon);
+            } else if (getTeamColor() == Robot.TeamColor.RED) {
+                robotUtilities.toggleBeaconPresser(tom.rightBeacon);
+            }
+        } else if (beaconConfig == BeaconUtils.BEACON_RED_BLUE) {
+            if (getTeamColor() == Robot.TeamColor.BLUE) {
+                robotUtilities.toggleBeaconPresser(tom.rightBeacon);
+            } else if (getTeamColor() == Robot.TeamColor.RED) {
+                robotUtilities.toggleBeaconPresser(tom.leftBeacon);
+            }
+        }
+        addToTelemetry("Hit beacon button");
 
     }
 
@@ -122,5 +148,28 @@ public class AutoVuforiaNav extends LinearOpMode{
         double thetaY = Math.atan2(-rotation[2][0], Math.sqrt(rotation[2][1] * rotation[2][1] + rotation[2][2] * rotation[2][2]));
         double thetaZ = Math.atan2(rotation[1][0], rotation[0][0]);
         return new VectorF((float)thetaX, (float)thetaY, (float)thetaZ);
+    }
+
+    /**
+     * Reads Team Color from FtcRobotControllerActivity
+     * @return Robot.TeamColor
+     */
+    private Robot.TeamColor getTeamColor() {
+        boolean blueChecked = FtcRobotControllerActivity.blueTeamColor.isChecked();
+        boolean redChecked = FtcRobotControllerActivity.redTeamColor.isChecked();
+
+        if(blueChecked) {
+            return Robot.TeamColor.BLUE;
+        } else if(redChecked) {
+            return Robot.TeamColor.RED;
+        }
+        return Robot.TeamColor.NONE;
+    }
+
+    private void addToTelemetry (String... msg) {
+        for (String text : msg) {
+            telemetry.addData(TAG, text);
+        }
+        telemetry.update();
     }
 }

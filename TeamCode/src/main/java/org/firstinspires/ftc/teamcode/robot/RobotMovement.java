@@ -87,25 +87,25 @@ public class RobotMovement {
         int brTarget = 0;
 
         if (direction == Direction.NORTH) {
-            flTarget = robot.fl.getCurrentPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
-            frTarget = robot.fr.getCurrentPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
-            blTarget = robot.bl.getCurrentPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
-            brTarget = robot.br.getTargetPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
+            flTarget = robot.fl.getCurrentPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
+            frTarget = robot.fr.getCurrentPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
+            blTarget = robot.bl.getCurrentPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
+            brTarget = robot.br.getTargetPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
         } else if (direction == Direction.SOUTH) {
-            flTarget = robot.fl.getCurrentPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
-            frTarget = robot.fr.getCurrentPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
-            blTarget = robot.bl.getCurrentPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
-            brTarget = robot.br.getTargetPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
+            flTarget = robot.fl.getCurrentPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
+            frTarget = robot.fr.getCurrentPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
+            blTarget = robot.bl.getCurrentPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
+            brTarget = robot.br.getTargetPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
         } else if (direction == Direction.EAST) {
-            flTarget = robot.fl.getCurrentPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
-            frTarget = robot.fr.getCurrentPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
-            blTarget = robot.bl.getCurrentPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
-            brTarget = robot.br.getTargetPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
+            flTarget = robot.fl.getCurrentPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
+            frTarget = robot.fr.getCurrentPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
+            blTarget = robot.bl.getCurrentPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
+            brTarget = robot.br.getTargetPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
         } else if (direction == Direction.WEST) {
-            flTarget = robot.fl.getCurrentPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
-            frTarget = robot.fr.getCurrentPosition() + (int) (distance * RobotConstants.INCHES_PER_TICK);
-            blTarget = robot.bl.getCurrentPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
-            brTarget = robot.br.getTargetPosition() - (int) (distance * RobotConstants.INCHES_PER_TICK);
+            flTarget = robot.fl.getCurrentPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
+            frTarget = robot.fr.getCurrentPosition() + (int) (distance * RobotConstants.TICK_PER_INCHES);
+            blTarget = robot.bl.getCurrentPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
+            brTarget = robot.br.getTargetPosition() - (int) (distance * RobotConstants.TICK_PER_INCHES);
         }
         robot.fl.setTargetPosition(flTarget);
         robot.fr.setTargetPosition(frTarget);
@@ -141,15 +141,15 @@ public class RobotMovement {
         int brTarget = 0;
 
         if (direction == Direction.ROTATE_LEFT) {
-            flTarget = robot.fl.getCurrentPosition() + (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
-            frTarget = robot.fr.getCurrentPosition() + (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
-            blTarget = robot.bl.getCurrentPosition() + (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
-            brTarget = robot.br.getTargetPosition() + (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
+            flTarget = robot.fl.getCurrentPosition() + (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
+            frTarget = robot.fr.getCurrentPosition() + (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
+            blTarget = robot.bl.getCurrentPosition() + (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
+            brTarget = robot.br.getTargetPosition() + (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
         } else if (direction == Direction.ROTATE_RIGHT) {
-            flTarget = robot.fl.getCurrentPosition() - (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
-            frTarget = robot.fr.getCurrentPosition() - (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
-            blTarget = robot.bl.getCurrentPosition() - (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
-            brTarget = robot.br.getTargetPosition() - (int) (distanceToMove * RobotConstants.INCHES_PER_TICK);
+            flTarget = robot.fl.getCurrentPosition() - (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
+            frTarget = robot.fr.getCurrentPosition() - (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
+            blTarget = robot.bl.getCurrentPosition() - (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
+            brTarget = robot.br.getTargetPosition() - (int) (distanceToMove * RobotConstants.TICK_PER_INCHES);
         }
         robot.fl.setTargetPosition(flTarget);
         robot.fr.setTargetPosition(frTarget);

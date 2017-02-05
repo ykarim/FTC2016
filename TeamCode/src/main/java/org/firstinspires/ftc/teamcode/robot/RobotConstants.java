@@ -23,7 +23,7 @@ public class RobotConstants {
     static final int ENCODER_TICKS_PER_REV = 1120;
     static final double WHEEL_DIAMETER = 3.0;
     static final double     DRIVE_GEAR_REDUCTION = 1.0 ;
-    static final double INCHES_PER_TICK = (ENCODER_TICKS_PER_REV * DRIVE_GEAR_REDUCTION) /
+    static final double TICK_PER_INCHES = (ENCODER_TICKS_PER_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER * Math.PI);
     public static final double distFromCenterToWheel = Math.sqrt(162);
 
