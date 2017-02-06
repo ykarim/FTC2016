@@ -18,15 +18,15 @@ public class RobotMovement {
 
     public void move(Direction direction) {
         if (direction == Direction.NORTH) {
-            robot.fl.setPower(RobotConstants.moveSpeed);
-            robot.fr.setPower(-RobotConstants.moveSpeed);
-            robot.bl.setPower(RobotConstants.moveSpeed);
-            robot.br.setPower(-RobotConstants.moveSpeed);
-        } else if (direction == Direction.SOUTH) {
             robot.fl.setPower(-RobotConstants.moveSpeed);
             robot.fr.setPower(RobotConstants.moveSpeed);
             robot.bl.setPower(-RobotConstants.moveSpeed);
             robot.br.setPower(RobotConstants.moveSpeed);
+        } else if (direction == Direction.SOUTH) {
+            robot.fl.setPower(RobotConstants.moveSpeed);
+            robot.fr.setPower(-RobotConstants.moveSpeed);
+            robot.bl.setPower(RobotConstants.moveSpeed);
+            robot.br.setPower(-RobotConstants.moveSpeed);
         } else if (direction == Direction.EAST) {
             robot.fl.setPower(-RobotConstants.moveSpeed);
             robot.fr.setPower(-RobotConstants.moveSpeed);

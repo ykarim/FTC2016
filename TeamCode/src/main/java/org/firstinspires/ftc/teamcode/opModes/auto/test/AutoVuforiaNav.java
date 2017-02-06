@@ -55,7 +55,8 @@ public class AutoVuforiaNav extends LinearOpMode{
 
         tom.initAutoOp(this, hardwareMap);
 
-        robotMovement.rotate(RobotMovement.Direction.ROTATE_RIGHT, 45);
+        waitForStart();
+        robotMovement.rotate(RobotMovement.Direction.ROTATE_RIGHT, 30);
 
         robotMovement.move(RobotMovement.Direction.NORTH);
         while (opModeIsActive() && gears.getPose() == null) {
@@ -71,7 +72,7 @@ public class AutoVuforiaNav extends LinearOpMode{
         VectorF angles = anglesFromTarget(gears);
         VectorF trans = navOffWall(gears.getPose().getTranslation(),
                 Math.toDegrees(angles.get(0)) - 90,
-                new VectorF(500, 0, 0)); //50 cm away from wall
+                new VectorF(254, 0, 0)); //50 cm away from wall
 
         if (trans.get(0) > 0) {
             robotMovement.move(RobotMovement.Direction.ROTATE_RIGHT);

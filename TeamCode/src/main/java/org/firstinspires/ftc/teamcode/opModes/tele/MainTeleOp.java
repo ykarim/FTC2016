@@ -32,8 +32,8 @@ public class MainTeleOp extends OpMode{
         updateTelemetryData();
 
         robotMovement.move(convertGamepadToMovement());
-        convertGamepadToIntake(gamepad2.left_stick_y);
-        convertGamepadToShoot(gamepad2.right_stick_y);
+        convertGamepadToIntake(-gamepad2.left_stick_y);
+        convertGamepadToShoot(-gamepad2.right_stick_y);
 
         if (gamepad1.a) { //Gamepad 1 - X Button
 
@@ -125,16 +125,17 @@ public class MainTeleOp extends OpMode{
 
     /**
      * Converts gamepad-1 x and y coords to robot directions
+     * Note y-coord is negative when up
      * TODO: Add cases for diagonal movement
      * @return
      */
     private RobotMovement.Direction convertGamepadToMovement() {
         if (gamepad1.left_stick_y > RobotConstants.gamepadThreshold &&
                 !inThresholdRange(gamepad1.left_stick_x)) {
-            return RobotMovement.Direction.NORTH;
+            return RobotMovement.Direction.SOUTH;
         } else if (gamepad1.left_stick_y < -RobotConstants.gamepadThreshold &&
                 !inThresholdRange(gamepad1.left_stick_x)) {
-            return RobotMovement.Direction.SOUTH;
+            return RobotMovement.Direction.NORTH;
         } else if (gamepad1.left_stick_x > RobotConstants.gamepadThreshold &&
                 !inThresholdRange(gamepad1.left_stick_y)) {
             return RobotMovement.Direction.EAST;
